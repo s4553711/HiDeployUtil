@@ -1,0 +1,11 @@
+user=
+pass=
+cluster=
+
+[app_env]
+app_path=/path/to/app
+app_list=task1:task2
+
+[app_list]
+task1_app=app1_folerName:app2_folderName
+task2_app=app3_folderName:app4_folderName
