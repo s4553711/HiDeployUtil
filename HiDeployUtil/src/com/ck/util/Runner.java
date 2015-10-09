@@ -1,6 +1,9 @@
 package com.ck.util;
 
+import java.util.List;
+
 import com.ck.analyzer.AppAnalyze;
+import com.ck.analyzer.AppScanner;
 
 public class Runner {
     public static void main(String[] args) {	
@@ -8,10 +11,12 @@ public class Runner {
     	String[] hosts = ConfigHelper.getProperty("cluster").split(":");
     	for(String host : hosts) {
     		RemoteTool ssh = new RemoteTool(ConfigHelper.getProperty("user"), ConfigHelper.getProperty("pass"), host);
+    		List<String> lists = AppScanner.scan(ssh);
+    		for(String ap : lists){
+    			System.out.println(ap.replace(ConfigHelper.getProperty("app_path"), ""));
+    		}
     		for(String pipeline : ConfigHelper.getProperty("app_list").split(":")) {
-    			AppAnalyze analyzer = new AppAnalyze(pipeline);
-    			analyzer.setSshClient(ssh);
-    			for(String app : analyzer.findMissingApp()) {
+    			for(String app : AppAnalyze.findMissingApp(pipeline, ssh)) {
     				System.out.printf("Warn Pipeline : %-8s, Host : %-20s Missing .. %-30s\n", pipeline, host, app);
     			}
     		}    		

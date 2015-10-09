@@ -7,15 +7,8 @@ import com.ck.util.ConfigHelper;
 import com.ck.util.RemoteTool;
 
 public class AppAnalyze {
-	
-	private String prefix;
-	private RemoteTool ssh;
 
-	public AppAnalyze(String prefix) {
-		this.prefix = prefix;
-	}
-
-	public List<String> findMissingApp() {
+	public static List<String> findMissingApp(String prefix, RemoteTool ssh) {
 		List<String> list = new ArrayList<>();
 		String appList = ConfigHelper.getProperty(prefix+"_app");
 		if (appList == null) {
@@ -30,9 +23,5 @@ public class AppAnalyze {
 			}
 		}
 		return list;
-	}
-
-	public void setSshClient(RemoteTool ssh) {
-		this.ssh = ssh;
 	}
 }

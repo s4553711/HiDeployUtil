@@ -17,9 +17,7 @@ public class AntRunner {
     	for(String host : hosts) {
     		RemoteTool ssh = new RemoteTool(ConfigHelper.getProperty("user"), ConfigHelper.getProperty("pass"), host);
     		for(String pipeline : ConfigHelper.getProperty("app_list").split(":")) {
-    			AppAnalyze analyzer = new AppAnalyze(pipeline);
-    			analyzer.setSshClient(ssh);
-    			for(String app : analyzer.findMissingApp()) {
+    			for(String app : AppAnalyze.findMissingApp(pipeline, ssh)) {
     				findMissing = true;
     				System.out.printf("Warn Pipeline : %-8s, Host : %-20s Missing .. %-30s\n", pipeline, host, app);
     			}
