@@ -1,19 +1,20 @@
 package com.ck.analyzer;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
+import com.ck.util.ConfigHelper;
 import com.ck.util.RemoteTool;
 
 public class AppScanner {
 
-	public static List<String> scan(RemoteTool ssh) {
-		List<String> lists = new ArrayList<>();
-		String cmd = "ls -l `find /opt/app/ -maxdepth 1 -type l -print`";
+	public static Map<String, Boolean> scan(RemoteTool ssh) {
+		Map<String, Boolean> lists = new HashMap<>();
+		String cmd = "ls -l `find "+ConfigHelper.getProperty("app_path")+" -maxdepth 1 -type l -print`";
 		for(String line : ssh.exec(cmd).split("\n")) {
 			String[] columns = line.split("\\s+");
 			//System.out.println("> "+columns[8]);
-			lists.add(columns[8]);
+			lists.put(columns[8].replace(ConfigHelper.getProperty("app_path"), ""), true);
 		}
 		return lists;
 	}
