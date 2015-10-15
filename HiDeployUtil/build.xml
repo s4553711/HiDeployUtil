@@ -44,4 +44,12 @@
 			</classpath>
 		</java>
 	</target>
+
+	<target name="res_run" depends="build">
+		<java classname="com.ck.run.ResRunner">
+			<classpath>
+				<pathelement location="HiDeployUtil.jar"/>
+			</classpath>
+		</java>
+	</target>
 </project>
