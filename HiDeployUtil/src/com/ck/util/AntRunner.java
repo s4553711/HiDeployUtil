@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.ck.analyzer.AppAnalyze;
 import com.ck.analyzer.AppScanner;
+import com.ck.analyzer.ResourcesAnalyze;
 import com.ck.util.ConfigHelper;
 
 import org.apache.tools.ant.BuildException;
@@ -25,9 +26,15 @@ public class AntRunner {
     		for(String pipeline : ConfigHelper.getProperty("app_list").split(":")) {
     			for(String app : AppAnalyze.findMissingApp(pipeline, ssh, lists)) {
     				findMissing = true;
-    				System.out.printf("Warn Pipeline : %-8s, Host : %-20s Missing .. %-30s\n", pipeline, host, app);
+    				System.out.printf("Warn Pipeline : %-15s, Host : %-20s missing app .. %-30s\n", pipeline, host, app);
     			}
-    		}    		
+    		}   
+    		for(String pipeline : ConfigHelper.getProperty("res_list").split(":")) {
+    			for(String res : ResourcesAnalyze.findFiles(pipeline, ssh)) {
+    				findMissing = true;
+    				System.out.printf("Warn Pipeline : %-15s, Host : %-20s missing resource .. %-30s\n", pipeline, host, res);
+    			}
+    		}
     	}
     	if (findMissing && !quiet) {
     		throw new BuildException("Find missing apps.");
