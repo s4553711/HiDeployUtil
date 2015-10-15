@@ -11,7 +11,7 @@ public class ResRunner {
     	for(String host : hosts) {
     		RemoteTool ssh = new RemoteTool(ConfigHelper.getProperty("user"), ConfigHelper.getProperty("pass"), host);
     		for(String pipeline : ConfigHelper.getProperty("res_list").split(":")) {
-    			for(String res : ResourcesAnalyze.findFiles("rnade", ssh)) {
+    			for(String res : ResourcesAnalyze.findFiles(pipeline, ssh)) {
     				System.out.printf("Warn Pipeline : %-8s, Host : %-20s Missing .. %-30s\n", pipeline, host, res);
     			}
     		}
